@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Nhân Sinh Mô Phỏng</title>
+
+<style>
+body{
+  margin:0;
+  font-family:"Times New Roman",serif;
+  background:#0b0b0b;
+  color:#eee;
+}
+.container{
+  max-width:800px;
+  margin:auto;
+  padding:20px;
+}
+.title{
+  text-align:center;
+  font-size:26px;
+  color:#d4af37;
+  margin-bottom:20px;
+}
+.status{
+  border:1px solid #d4af37;
+  padding:10px;
+  margin-bottom:20px;
+  background:#111;
+}
+.story{
+  border:1px solid #444;
+  padding:15px;
+  margin-bottom:20px;
+  background:#111;
+  line-height:1.6;
+}
+.choices button{
+  display:block;
+  width:100%;
+  margin:8px 0;
+  padding:10px;
+  background:#222;
+  color:#fff;
+  border:none;
+  cursor:pointer;
+}
+.choices button:hover{
+  background:#d4af37;
+  color:#000;
+}
+.log{
+  margin-top:15px;
+  font-size:14px;
+  color:#aaa;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+  <div class="title">PHỤC CHÂN LỤC - NHÂN SINH</div>
+
+  <div class="status" id="status"></div>
+
+  <div class="story" id="story"></div>
+
+  <div class="choices" id="choices"></div>
+
+  <div class="log" id="log"></div>
+
+</div>
+
+<script>
+
+/* ===== CHỈ SỐ ===== */
+let state = {
+  tam: "Thư thả",
+  danh: 10,
+  nhan: 50,
+  nghiep: 0
+};
+
+function updateStatus(){
+  document.getElementById("status").innerHTML = `
+    Tâm cảnh: ${state.tam} <br>
+    Danh vọng: ${state.danh} <br>
+    Nhân duyên: ${state.nhan} <br>
+    Nghiệp lực: ${state.nghiep}
+  `;
+}
+
+function log(t){
+  document.getElementById("log").innerHTML += "• "+t+"<br>";
+}
+
+/* ===== HIỂN THỊ ===== */
+function showScene(text, options){
+  document.getElementById("story").innerHTML = text;
+
+  let html = "";
+  options.forEach(o=>{
+    html += `<button onclick="${o.action}">${o.text}</button>`;
+  });
+  document.getElementById("choices").innerHTML = html;
+}
+
+/* ===== START ===== */
+function start(){
+
+  updateStatus();
+
+  showScene(`
+Ngươi đang thư thả đi dạo trên đường phố Trường An, tay vừa đưa xâu kẹo hồ lô lên miệng cắn dở thì bỗng nghe tiếng đập cánh phành phạch.  
+
+Một con bồ câu đưa thư sà xuống vai ngươi.  
+
+Ngươi mở mật thư ra xem, nhận ra đó là bồ câu của Lý huynh (một người huynh đệ kết nghĩa trên mạng).  
+
+Bên trong không có chữ nào, chỉ có một tờ giấy vẽ sticker một con chó mặt cực kỳ gợi đòn.  
+
+Ngươi sẽ phản hồi thế nào trước sự khiêu khích này?
+  `,[
+    {text:"Phương án A: Vẽ lại một cái sticker hình chiếc đĩa ném trả lại.", action:"A()"},
+    {text:"Phương án B: Lấy bút lông ra rep tin nhắn trêu chọc lại huynh ấy vài câu cho bõ ghét.", action:"B()"},
+    {text:"Phương án C: Lạnh lùng đánh dấu 'Đã xem' (Seen) rồi cất thư vào ngực áo, bỏ đi dạo tiếp kệ huynh ấy.", action:"C()"},
+    {text:"Phương án D: Vẫn là vẽ sticker ném đĩa trả lại, nhưng kèm theo 'Bí kíp bắt đĩa cho loài khuyển'.", action:"D()"}
+  ]);
+}
+
+/* ===== CHOICE ===== */
+function A(){
+  state.nhan += 3;
+  state.nghiep += 1;
+  log("Ngươi ném đĩa đáp trả.");
+  updateStatus();
+  next();
+}
+
+function B(){
+  state.nhan += 6;
+  state.danh += 2;
+  log("Ngươi dùng lời lẽ trêu chọc.");
+  updateStatus();
+  next();
+}
+
+function C(){
+  state.nhan -= 5;
+  state.danh += 1;
+  log("Ngươi bỏ mặc.");
+  updateStatus();
+  next();
+}
+
+function D(){
+  state.nhan += 10;
+  state.danh += 3;
+  state.nghiep += 3;
+  log("Ngươi khiêu khích cực mạnh.");
+  updateStatus();
+
+  showScene(`
+Chưa đầy một khắc sau...
+
+Một bóng người xuất hiện trước mặt ngươi.
+
+"Lý huynh tới rồi."
+  `,[
+    {text:"Chuẩn bị đánh nhau", action:"fight()"},
+    {text:"Bỏ chạy", action:"run()"}
+  ]);
+}
+
+/* ===== NEXT ===== */
+function next(){
+  showScene(`
+Ngươi tiếp tục đi dạo giữa Trường An.
+
+Gió thổi nhẹ, dường như mọi chuyện vẫn chưa kết thúc...
+  `,[
+    {text:"Tiếp tục", action:"random()"}
+  ]);
+}
+
+function random(){
+  if(Math.random() < 0.5){
+    state.danh += 2;
+    log("Danh vọng tăng.");
+  }else{
+    state.nghiep += 2;
+    log("Nghiệp lực tăng.");
+  }
+  updateStatus();
+
+  showScene("Một ngày bình thường trôi qua.",[
+    {text:"Chơi lại", action:"restart()"}
+  ]);
+}
+
+/* ===== PvP ===== */
+function fight(){
+  state.danh += 5;
+  log("Ngươi thắng!");
+  updateStatus();
+
+  showScene("Ngươi đánh bại Lý huynh.",[
+    {text:"Chơi lại", action:"restart()"}
+  ]);
+}
+
+function run(){
+  state.danh -= 2;
+  log("Ngươi chạy.");
+  updateStatus();
+
+  showScene("Ngươi thoát thân.",[
+    {text:"Chơi lại", action:"restart()"}
+  ]);
+}
+
+/* ===== RESET ===== */
+function restart(){
+  state = {tam:"Thư thả", danh:10, nhan:50, nghiep:0};
+  document.getElementById("log").innerHTML="";
+  start();
+}
+
+start();
+
+</script>
+
+</body>
+</html>
