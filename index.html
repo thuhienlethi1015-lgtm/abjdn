@@ -3,57 +3,68 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Nhân Sinh Mô Phỏng</title>
+<title>Nhân Sinh Mô Phỏng - Khịa Level Cao</title>
 
 <style>
 body{
   margin:0;
   font-family:"Times New Roman",serif;
-  background:#0b0b0b;
+  background:#0a0a0a;
   color:#eee;
 }
+
 .container{
   max-width:800px;
   margin:auto;
   padding:20px;
 }
+
 .title{
   text-align:center;
-  font-size:26px;
+  font-size:28px;
   color:#d4af37;
   margin-bottom:20px;
+  letter-spacing:3px;
 }
+
 .status{
   border:1px solid #d4af37;
   padding:10px;
-  margin-bottom:20px;
+  margin-bottom:15px;
   background:#111;
 }
+
 .story{
   border:1px solid #444;
   padding:15px;
-  margin-bottom:20px;
+  margin-bottom:15px;
   background:#111;
-  line-height:1.6;
+  line-height:1.7;
+  min-height:140px;
 }
+
 .choices button{
-  display:block;
   width:100%;
-  margin:8px 0;
+  margin:6px 0;
   padding:10px;
   background:#222;
   color:#fff;
   border:none;
   cursor:pointer;
+  transition:.25s;
 }
+
 .choices button:hover{
   background:#d4af37;
   color:#000;
 }
+
 .log{
   margin-top:15px;
-  font-size:14px;
+  font-size:13px;
   color:#aaa;
+  max-height:150px;
+  overflow:auto;
 }
 </style>
 </head>
@@ -62,15 +73,12 @@ body{
 
 <div class="container">
 
-  <div class="title">PHỤC CHÂN LỤC - NHÂN SINH</div>
+<div class="title">PHỤC CHÂN LỤC - NHÂN SINH KHỊA</div>
 
-  <div class="status" id="status"></div>
-
-  <div class="story" id="story"></div>
-
-  <div class="choices" id="choices"></div>
-
-  <div class="log" id="log"></div>
+<div class="status" id="status"></div>
+<div class="story" id="story"></div>
+<div class="choices" id="choices"></div>
+<div class="log" id="log"></div>
 
 </div>
 
@@ -78,26 +86,26 @@ body{
 
 /* ===== CHỈ SỐ ===== */
 let state = {
-  tam: "Thư thả",
+  tam: "Bình tĩnh nhưng dễ cáu",
   danh: 10,
   nhan: 50,
   nghiep: 0
 };
 
+/* ===== UI ===== */
 function updateStatus(){
   document.getElementById("status").innerHTML = `
-    Tâm cảnh: ${state.tam} <br>
-    Danh vọng: ${state.danh} <br>
-    Nhân duyên: ${state.nhan} <br>
-    Nghiệp lực: ${state.nghiep}
+  Tâm cảnh: ${state.tam}<br>
+  Danh vọng: ${state.danh}<br>
+  Nhân duyên: ${state.nhan}<br>
+  Nghiệp lực: ${state.nghiep}
   `;
 }
 
 function log(t){
-  document.getElementById("log").innerHTML += "• "+t+"<br>";
+  document.getElementById("log").innerHTML += "• " + t + "<br>";
 }
 
-/* ===== HIỂN THỊ ===== */
 function showScene(text, options){
   document.getElementById("story").innerHTML = text;
 
@@ -105,6 +113,7 @@ function showScene(text, options){
   options.forEach(o=>{
     html += `<button onclick="${o.action}">${o.text}</button>`;
   });
+
   document.getElementById("choices").innerHTML = html;
 }
 
@@ -114,121 +123,175 @@ function start(){
   updateStatus();
 
   showScene(`
-Ngươi đang thư thả đi dạo trên đường phố Trường An, tay vừa đưa xâu kẹo hồ lô lên miệng cắn dở thì bỗng nghe tiếng đập cánh phành phạch.  
+Hôm nay tiểu muội muội đòi ngươi tìm trai đẹp có múi cho nàng sờ.
 
-Một con bồ câu đưa thư sà xuống vai ngươi.  
+Ngươi đang đứng giữa Trường An, trời xanh mây trắng, lòng người thì... không chắc.
 
-Ngươi mở mật thư ra xem, nhận ra đó là bồ câu của Lý huynh (một người huynh đệ kết nghĩa trên mạng).  
+Tiểu muội nhìn ngươi với ánh mắt kỳ vọng:
+"Huynh... tìm cho muội một người có múi được không?"
 
-Bên trong không có chữ nào, chỉ có một tờ giấy vẽ sticker một con chó mặt cực kỳ gợi đòn.  
+Ngươi trầm mặc 3 giây.
 
-Ngươi sẽ phản hồi thế nào trước sự khiêu khích này?
+Trong đầu hiện lên rất nhiều câu hỏi:
+👉 "Nàng bị gì vậy?"
+👉 "Ta là môi giới trai đẹp à?"
+👉 "Hay ta nên đánh nàng luôn cho nhanh?"
+
+Ngươi sẽ:
   `,[
-    {text:"Phương án A: Vẽ lại một cái sticker hình chiếc đĩa ném trả lại.", action:"A()"},
-    {text:"Phương án B: Lấy bút lông ra rep tin nhắn trêu chọc lại huynh ấy vài câu cho bõ ghét.", action:"B()"},
-    {text:"Phương án C: Lạnh lùng đánh dấu 'Đã xem' (Seen) rồi cất thư vào ngực áo, bỏ đi dạo tiếp kệ huynh ấy.", action:"C()"},
-    {text:"Phương án D: Vẫn là vẽ sticker ném đĩa trả lại, nhưng kèm theo 'Bí kíp bắt đĩa cho loài khuyển'.", action:"D()"}
+    {text:"- Kick nàng (giải quyết nhanh gọn)", action:"A()"},
+    {text:"- Đẩy cho người khác (đúng chất bạn tốt)", action:"B()"},
+    {text:"- Bảo nàng tự đi mà kiếm (tự lực cánh sinh)", action:"C()"},
+    {text:"- Trách nàng: 'Sao không sờ đồ trong nhà mà chán cơm thèm phở?'", action:"D()"}
   ]);
 }
 
 /* ===== CHOICE ===== */
 function A(){
-  state.nhan += 3;
-  state.nghiep += 1;
-  log("Ngươi ném đĩa đáp trả.");
+  state.nhan -= 10;
+  state.nghiep += 5;
+
+  log("Ngươi tung một cước. Tiểu muội bay ngang qua một sạp bán bánh bao.");
+  log("Chủ sạp: '??? Đây là đánh người hay biểu diễn võ thuật?'");
+
   updateStatus();
+
   next();
 }
 
 function B(){
-  state.nhan += 6;
-  state.danh += 2;
-  log("Ngươi dùng lời lẽ trêu chọc.");
+  state.nhan += 3;
+  state.danh -= 1;
+
+  log("Ngươi tiện tay đẩy nàng sang một nam tử qua đường.");
+  log("Nam tử: 'Ủa liên quan gì tới ta???'");
+
   updateStatus();
+
   next();
 }
 
 function C(){
-  state.nhan -= 5;
-  state.danh += 1;
-  log("Ngươi bỏ mặc.");
+  state.danh += 2;
+
+  log("Ngươi bình thản: 'Tự đi mà kiếm.'");
+  log("Tiểu muội: 'Huynh vô tâm thật sự.'");
+
   updateStatus();
+
   next();
 }
 
 function D(){
-  state.nhan += 10;
-  state.danh += 3;
-  state.nghiep += 3;
-  log("Ngươi khiêu khích cực mạnh.");
+  state.nhan += 8;
+  state.nghiep += 4;
+  state.danh += 2;
+
+  log("Không khí đóng băng 5 giây.");
+  log("Một bà bán rau gần đó ho sặc: 'Nói chuyện kiểu gì vậy trời???'");
+
   updateStatus();
 
   showScene(`
-Chưa đầy một khắc sau...
+Tiểu muội đỏ mặt từ cổ lên tới chân tóc.
 
-Một bóng người xuất hiện trước mặt ngươi.
+Nàng siết chặt nắm tay.
 
-"Lý huynh tới rồi."
+"Huynh hôm nay... muốn chết phải không?"
+
+⚠️ SÁT KHÍ TĂNG CAO
   `,[
-    {text:"Chuẩn bị đánh nhau", action:"fight()"},
-    {text:"Bỏ chạy", action:"run()"}
+    {text:"- Chuẩn bị ăn đòn", action:"fight()"},
+    {text:"- Giả vờ nhìn trời như chưa từng nói gì", action:"run()"}
   ]);
 }
 
 /* ===== NEXT ===== */
 function next(){
   showScene(`
-Ngươi tiếp tục đi dạo giữa Trường An.
+Ngươi tiếp tục bước đi.
 
-Gió thổi nhẹ, dường như mọi chuyện vẫn chưa kết thúc...
+Trường An vẫn đông đúc.
+
+Chỉ là... phía sau có người đang nhìn ngươi với ánh mắt không mấy thân thiện.
   `,[
-    {text:"Tiếp tục", action:"random()"}
+    {text:"- Kệ luôn, đời là vậy", action:"randomEvent()"}
   ]);
 }
 
-function random(){
-  if(Math.random() < 0.5){
-    state.danh += 2;
-    log("Danh vọng tăng.");
+/* ===== RANDOM EVENT ===== */
+function randomEvent(){
+
+  let r = Math.random();
+
+  if(r < 0.5){
+    state.danh += 3;
+    log("Ngươi vô tình giúp một người → danh vọng tăng.");
   }else{
-    state.nghiep += 2;
-    log("Nghiệp lực tăng.");
+    state.nghiep += 3;
+    log("Ngươi vô tình gây drama → nghiệp lực tăng.");
   }
+
   updateStatus();
 
-  showScene("Một ngày bình thường trôi qua.",[
-    {text:"Chơi lại", action:"restart()"}
+  showScene(`
+Một ngày trôi qua.
+
+Ngươi tự hỏi: "Mình sống như vậy có ổn không?"
+  `,[
+    {text:"- Chơi lại (đời làm lại từ đầu)", action:"restart()"}
   ]);
 }
 
 /* ===== PvP ===== */
 function fight(){
   state.danh += 5;
-  log("Ngươi thắng!");
+  state.nghiep += 5;
+
+  log("Ngươi ăn trọn combo liên hoàn cước.");
+  log("Kết quả: ngươi vẫn thua.");
+
   updateStatus();
 
-  showScene("Ngươi đánh bại Lý huynh.",[
-    {text:"Chơi lại", action:"restart()"}
+  showScene(`
+Ngươi nằm trên đất, suy nghĩ về cuộc đời.
+
+👉 Bài học: Đừng khịa quá đà.
+  `,[
+    {text:"- Chơi lại", action:"restart()"}
   ]);
 }
 
 function run(){
   state.danh -= 2;
-  log("Ngươi chạy.");
+
+  log("Ngươi quay đầu nhìn trời: 'Hôm nay thời tiết đẹp thật.'");
+  log("Sau đó lặng lẽ biến mất.");
+
   updateStatus();
 
-  showScene("Ngươi thoát thân.",[
-    {text:"Chơi lại", action:"restart()"}
+  showScene(`
+Ngươi thoát thân thành công.
+
+Nhưng danh dự... thì không chắc.
+  `,[
+    {text:"- Chơi lại", action:"restart()"}
   ]);
 }
 
 /* ===== RESET ===== */
 function restart(){
-  state = {tam:"Thư thả", danh:10, nhan:50, nghiep:0};
+  state = {
+    tam:"Bình tĩnh nhưng dễ cáu",
+    danh:10,
+    nhan:50,
+    nghiep:0
+  };
   document.getElementById("log").innerHTML="";
   start();
 }
 
+/* START */
 start();
 
 </script>
