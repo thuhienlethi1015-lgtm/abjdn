@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Nhân Sinh Mô Phỏng - Khịa Level Cao</title>
+<title>Nhân Sinh Khịa Cấp Cao</title>
 
 <style>
 body{
@@ -12,37 +12,30 @@ body{
   background:#0a0a0a;
   color:#eee;
 }
-
 .container{
   max-width:800px;
   margin:auto;
   padding:20px;
 }
-
 .title{
   text-align:center;
   font-size:28px;
   color:#d4af37;
   margin-bottom:20px;
-  letter-spacing:3px;
 }
-
 .status{
   border:1px solid #d4af37;
   padding:10px;
-  margin-bottom:15px;
   background:#111;
+  margin-bottom:15px;
 }
-
 .story{
   border:1px solid #444;
   padding:15px;
-  margin-bottom:15px;
   background:#111;
+  margin-bottom:15px;
   line-height:1.7;
-  min-height:140px;
 }
-
 .choices button{
   width:100%;
   margin:6px 0;
@@ -51,14 +44,11 @@ body{
   color:#fff;
   border:none;
   cursor:pointer;
-  transition:.25s;
 }
-
 .choices button:hover{
   background:#d4af37;
   color:#000;
 }
-
 .log{
   margin-top:15px;
   font-size:13px;
@@ -75,10 +65,10 @@ body{
 
 <div class="title">PHỤC CHÂN LỤC - NHÂN SINH KHỊA</div>
 
-<div class="status" id="status"></div>
-<div class="story" id="story"></div>
-<div class="choices" id="choices"></div>
-<div class="log" id="log"></div>
+<div id="status" class="status"></div>
+<div id="story" class="story"></div>
+<div id="choices" class="choices"></div>
+<div id="log" class="log"></div>
 
 </div>
 
@@ -125,24 +115,21 @@ function start(){
   showScene(`
 Hôm nay tiểu muội muội đòi ngươi tìm trai đẹp có múi cho nàng sờ.
 
-Ngươi đang đứng giữa Trường An, trời xanh mây trắng, lòng người thì... không chắc.
+Ngươi đứng giữa Trường An, lòng bắt đầu thấy sai sai...
 
-Tiểu muội nhìn ngươi với ánh mắt kỳ vọng:
-"Huynh... tìm cho muội một người có múi được không?"
+"Huynh... tìm giúp muội được không?"
 
-Ngươi trầm mặc 3 giây.
+Ngươi suy nghĩ:
 
-Trong đầu hiện lên rất nhiều câu hỏi:
-👉 "Nàng bị gì vậy?"
-👉 "Ta là môi giới trai đẹp à?"
-👉 "Hay ta nên đánh nàng luôn cho nhanh?"
+👉 Ta là môi giới hay gì?
+👉 Hay nên xử lý nàng luôn?
 
 Ngươi sẽ:
   `,[
-    {text:"- Kick nàng (giải quyết nhanh gọn)", action:"A()"},
-    {text:"- Đẩy cho người khác (đúng chất bạn tốt)", action:"B()"},
-    {text:"- Bảo nàng tự đi mà kiếm (tự lực cánh sinh)", action:"C()"},
-    {text:"- Trách nàng: 'Sao không sờ đồ trong nhà mà chán cơm thèm phở?'", action:"D()"}
+    {text:"- Kick nàng", action:"A()"},
+    {text:"- Đẩy cho người khác", action:"B()"},
+    {text:"- Bảo nàng tự đi mà kiếm", action:"C()"},
+    {text:"- Trách nàng sao không sờ đồ trong nhà mà chán cơm thèm phở", action:"D()"}
   ]);
 }
 
@@ -151,9 +138,7 @@ function A(){
   state.nhan -= 10;
   state.nghiep += 5;
 
-  log("Ngươi tung một cước. Tiểu muội bay ngang qua một sạp bán bánh bao.");
-  log("Chủ sạp: '??? Đây là đánh người hay biểu diễn võ thuật?'");
-
+  log("Ngươi tung một cước. Tiểu muội bay ngang qua quầy bánh.");
   updateStatus();
 
   next();
@@ -163,9 +148,7 @@ function B(){
   state.nhan += 3;
   state.danh -= 1;
 
-  log("Ngươi tiện tay đẩy nàng sang một nam tử qua đường.");
-  log("Nam tử: 'Ủa liên quan gì tới ta???'");
-
+  log("Ngươi đẩy nàng sang người qua đường.");
   updateStatus();
 
   next();
@@ -174,9 +157,7 @@ function B(){
 function C(){
   state.danh += 2;
 
-  log("Ngươi bình thản: 'Tự đi mà kiếm.'");
-  log("Tiểu muội: 'Huynh vô tâm thật sự.'");
-
+  log("Ngươi: 'Tự đi mà kiếm.'");
   updateStatus();
 
   next();
@@ -187,76 +168,76 @@ function D(){
   state.nghiep += 4;
   state.danh += 2;
 
-  log("Không khí đóng băng 5 giây.");
-  log("Một bà bán rau gần đó ho sặc: 'Nói chuyện kiểu gì vậy trời???'");
+  log("Ngươi nhếch mép, tung ra câu chí mạng:");
+  log("👉 'À quên mất, muội you have no door.'");
 
   updateStatus();
 
   showScene(`
-Tiểu muội đỏ mặt từ cổ lên tới chân tóc.
+Không khí đóng băng.
 
-Nàng siết chặt nắm tay.
+Một người bán hàng gần đó lặng lẽ quay đầu.
 
-"Huynh hôm nay... muốn chết phải không?"
+Tiểu muội đứng im.
 
-⚠️ SÁT KHÍ TĂNG CAO
+Rồi...
+
+"Huynh..."
+
+"Huynh hôm nay phải chết."
+
+⚠️ SÁT KHÍ BỘC PHÁT
   `,[
     {text:"- Chuẩn bị ăn đòn", action:"fight()"},
-    {text:"- Giả vờ nhìn trời như chưa từng nói gì", action:"run()"}
+    {text:"- Giả vờ nhìn trời", action:"run()"}
   ]);
 }
 
 /* ===== NEXT ===== */
 function next(){
   showScene(`
-Ngươi tiếp tục bước đi.
+Ngươi tiếp tục đi dạo.
 
-Trường An vẫn đông đúc.
-
-Chỉ là... phía sau có người đang nhìn ngươi với ánh mắt không mấy thân thiện.
+Nhưng phía sau... có cảm giác không ổn lắm.
   `,[
-    {text:"- Kệ luôn, đời là vậy", action:"randomEvent()"}
+    {text:"- Kệ luôn", action:"randomEvent()"}
   ]);
 }
 
-/* ===== RANDOM EVENT ===== */
+/* ===== RANDOM ===== */
 function randomEvent(){
 
-  let r = Math.random();
-
-  if(r < 0.5){
+  if(Math.random()<0.5){
     state.danh += 3;
-    log("Ngươi vô tình giúp một người → danh vọng tăng.");
+    log("Danh vọng tăng.");
   }else{
     state.nghiep += 3;
-    log("Ngươi vô tình gây drama → nghiệp lực tăng.");
+    log("Nghiệp lực tăng.");
   }
 
   updateStatus();
 
   showScene(`
-Một ngày trôi qua.
+Một ngày trôi qua...
 
-Ngươi tự hỏi: "Mình sống như vậy có ổn không?"
+Ngươi tự hỏi: "Mình sống vậy ổn không?"
   `,[
-    {text:"- Chơi lại (đời làm lại từ đầu)", action:"restart()"}
+    {text:"- Chơi lại", action:"restart()"}
   ]);
 }
 
 /* ===== PvP ===== */
 function fight(){
-  state.danh += 5;
   state.nghiep += 5;
+  state.danh += 3;
 
-  log("Ngươi ăn trọn combo liên hoàn cước.");
-  log("Kết quả: ngươi vẫn thua.");
-
+  log("Ngươi ăn combo liên hoàn.");
   updateStatus();
 
   showScene(`
-Ngươi nằm trên đất, suy nghĩ về cuộc đời.
+Ngươi nằm dưới đất.
 
-👉 Bài học: Đừng khịa quá đà.
+👉 Bài học: đừng khịa quá đà.
   `,[
     {text:"- Chơi lại", action:"restart()"}
   ]);
@@ -265,15 +246,13 @@ Ngươi nằm trên đất, suy nghĩ về cuộc đời.
 function run(){
   state.danh -= 2;
 
-  log("Ngươi quay đầu nhìn trời: 'Hôm nay thời tiết đẹp thật.'");
-  log("Sau đó lặng lẽ biến mất.");
-
+  log("Ngươi giả vờ ngắm trời rồi biến mất.");
   updateStatus();
 
   showScene(`
 Ngươi thoát thân thành công.
 
-Nhưng danh dự... thì không chắc.
+Nhưng... danh dự thì không.
   `,[
     {text:"- Chơi lại", action:"restart()"}
   ]);
@@ -291,7 +270,6 @@ function restart(){
   start();
 }
 
-/* START */
 start();
 
 </script>
